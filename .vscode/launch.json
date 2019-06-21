@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - RandomAccessFileTest",
+            "request": "launch",
+            "mainClass": "com.tsmc.ta.benchmark.RandomAccessFileTest",
+            "projectName": "cpuload"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CPULoadApplication",
+            "request": "launch",
+            "mainClass": "com.tsmc.ta.cpuload.CPULoadApplication",
+            "projectName": "cpuload"
+        }
+    ]
+}
