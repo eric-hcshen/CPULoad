@@ -19,7 +19,7 @@ public class ScheduledTasks {
 
     private static Runtime rt = Runtime.getRuntime();
 
-    @Scheduled(fixedRate = 500)
+    @Scheduled(fixedRate = 50000000)
     public void reportCurrentTime() {
         if(seq == Long.MAX_VALUE) {
             seq = 0;

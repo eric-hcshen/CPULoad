@@ -1,8 +1,11 @@
 package com.tsmc.ta.benchmark;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -23,17 +26,21 @@ public class RandomAccessFileTest implements Callable<Object>
             throw e;
         }
         //new RandomAccessFileTest(runs).call();
+        StringWriter out = new StringWriter();
         PrintWriter writer = new PrintWriter(System.out);
-        char[] buf = new char[10000];
+        BufferedOutputStream stream = new BufferedOutputStream(System.out);
+        byte[] buf = new byte[10000];
         //new RandomAccessFileTest(runs).call(1000, new PrintWriter(System.out, true));
-        new RandomAccessFileTest(runs).call(writer);
-        writer.write(buf);
-        System.out.println(buf);
+        new RandomAccessFileTest(runs).call(out);
+
+        //Snew StringReader(out.toString());
+
+        System.out.println(out.toString());
     }
 
     private final int runs;
 
-    RandomAccessFileTest(int runs)
+    public RandomAccessFileTest(int runs)
     {
         this.runs = runs;
     }
@@ -45,7 +52,7 @@ public class RandomAccessFileTest implements Callable<Object>
         return null;
     }
 
-    public Object call(PrintWriter writer) throws Exception
+    public Object call(StringWriter writer) throws Exception
     {
         new Benchmark("RandomAccessFile", getTests(), runs, writer).run();
 

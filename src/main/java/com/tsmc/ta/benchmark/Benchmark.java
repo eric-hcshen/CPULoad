@@ -1,6 +1,7 @@
 package com.tsmc.ta.benchmark;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Benchmark
     private final String name;
     private final List<TimedTestRunner> runners;
     private final int runs;
-    private final PrintWriter writer;
+    private final StringWriter writer;
 
     Benchmark(String name, List<TimedTestRunner> runners)
     {
@@ -22,10 +23,10 @@ public class Benchmark
 
     Benchmark(String name, List<TimedTestRunner> runners, int runs)
     {
-        this(name, runners, runs, new PrintWriter(System.out, true));
+        this(name, runners, runs, new StringWriter());
     }
 
-    Benchmark(String name, List<TimedTestRunner> runners, int runs, PrintWriter writer)
+    Benchmark(String name, List<TimedTestRunner> runners, int runs, StringWriter writer)
     {
         this.name = name;
         this.runners = Collections.unmodifiableList(new ArrayList<TimedTestRunner>(runners));
@@ -35,46 +36,46 @@ public class Benchmark
 
     public void run()
     {
-        writer.print("Benchmark: ");
-        writer.println(name);
-        writer.println();
+        writer.write("Benchmark: ");
+        writer.write(name);
+        writer.write("\n");
 
         if (PRINT_DETAILS) {
 			// write header
-        	writer.print("#");
+        	writer.write("#");
         	for (TimedTestRunner runner : runners)
         	{
-            	writer.print("\t");
-            	writer.print(runner.getName());
+            	writer.write("\t");
+            	writer.write(runner.getName());
         	}
-        	writer.println();
+        	writer.write("\n");
 		}
 
         for (int i = 0; i < runs; i++)
         {
-            if (PRINT_DETAILS) writer.print(i);
+            if (PRINT_DETAILS) writer.write(i);
             for (TimedTestRunner runner : runners)
             {
                 if (PRINT_DETAILS) {
-					writer.print("\t");
-                	writer.print(runner.run());
+					writer.write("\t");
+                	writer.write("" + runner.run() + "\n");
 				}
 				else runner.run();
             }
-            if (PRINT_DETAILS) writer.println();
+            if (PRINT_DETAILS) writer.write("\n");
         }
         
-        writer.println();
-        writer.println("TOTALS");
-        writer.println("----\t----\t----\t----\t----");
-        writer.println("stat\tavg\tmedian\tmin\tmax");
-        writer.println("----\t----\t----\t----\t----");
+        writer.write("\n");
+        writer.write("TOTALS" + "\n");
+        writer.write("----\t----\t----\t----\t----\n");
+        writer.write("stat\tavg\tmedian\tmin\tmax\n");
+        writer.write("----\t----\t----\t----\t----\n");
         for (TimedTestRunner runner : runners)
         {
-            writer.println(runner);
+            writer.write("" + runner + "\n");
         }
-        writer.println("----\t----\t----\t----\t----");
-        writer.println("All times are in nanoseconds.");
+        writer.write("----\t----\t----\t----\t----\n");
+        writer.write("All times are in nanoseconds.\n");
         
         //writer.flush();
     }
